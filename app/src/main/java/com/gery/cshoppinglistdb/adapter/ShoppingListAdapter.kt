@@ -20,7 +20,7 @@ class ShoppingListAdapter(private val context: Context) :
     init {
         val dbThread = Thread {
             items = ShoppingItemDatabase.getInstance((context as MainActivity)).shoppingItemDao().getAllItems()
-            (context as MainActivity).runOnUiThread {
+            context.runOnUiThread {
                 notifyItemRangeChanged(0, items.size)
             }
         }
@@ -37,7 +37,13 @@ class ShoppingListAdapter(private val context: Context) :
         holder.bind(items[holder.adapterPosition])
 
         holder.shopItemBinding.btnItemDelete.setOnClickListener {
-            deleteItem(holder.adapterPosition)
+            val dbThread = Thread {
+                ShoppingItemDatabase.getInstance((context as MainActivity)).shoppingItemDao().deleteItem(items[holder.adapterPosition])
+                context.runOnUiThread {
+                    deleteItem(holder.adapterPosition)
+                }
+            }
+            dbThread.start()
         }
 
         holder.shopItemBinding.btnItemEdit.setOnClickListener {
@@ -46,7 +52,13 @@ class ShoppingListAdapter(private val context: Context) :
 
         holder.shopItemBinding.cbItemStatus.setOnClickListener {
             items[holder.adapterPosition].status = holder.shopItemBinding.cbItemStatus.isChecked
-            notifyItemChanged(holder.adapterPosition)
+            val dbThread = Thread {
+                ShoppingItemDatabase.getInstance((context as MainActivity)).shoppingItemDao().updateItem(items[holder.adapterPosition])
+                context.runOnUiThread {
+                    notifyItemChanged(holder.adapterPosition)
+                }
+            }
+            dbThread.start()
         }
 
         if (position % 2 == 0) {
@@ -67,6 +79,7 @@ class ShoppingListAdapter(private val context: Context) :
     private fun deleteItem(adapterPosition: Int) {
         items.removeAt(adapterPosition)
         notifyItemRemoved(adapterPosition)
+        notifyItemRangeChanged(adapterPosition, items.size)
     }
 
     override fun getItemCount(): Int {
@@ -84,9 +97,15 @@ class ShoppingListAdapter(private val context: Context) :
     }
 
     fun deleteAll() {
-        val size = items.size
-        items.clear()
-        notifyItemRangeRemoved(0, size)
+        val dbThread = Thread {
+            ShoppingItemDatabase.getInstance((context as MainActivity)).shoppingItemDao().deleteAllItems()
+            context.runOnUiThread {
+                val size = items.size
+                items.clear()
+                notifyItemRangeRemoved(0, size)
+            }
+        }
+        dbThread.start()
     }
 
     inner class ViewHolder(val shopItemBinding: ShoppingListItemLayoutBinding): RecyclerView.ViewHolder(shopItemBinding.root) {

@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.room.Room
 import com.gery.cshoppinglistdb.adapter.ShoppingListAdapter
 import com.gery.cshoppinglistdb.data.ShoppingItem
 import com.gery.cshoppinglistdb.data.ShoppingItemDatabase
@@ -54,10 +53,22 @@ class MainActivity : AppCompatActivity(), ShoppingItemDialog.ShoppingItemDialogH
     }
 
     override fun shoppingItemCreated(item: ShoppingItem) {
-        shoppingListAdapter.addItem(item)
+        val dbThread = Thread {
+            ShoppingItemDatabase.getInstance(this).shoppingItemDao().insertItem(item)
+            runOnUiThread {
+                shoppingListAdapter.addItem(item)
+            }
+        }
+        dbThread.start()
     }
 
     override fun shoppingItemModified(item: ShoppingItem, position: Int) {
-        shoppingListAdapter.editItem(item, position)
+        val dbThread = Thread {
+            ShoppingItemDatabase.getInstance(this).shoppingItemDao().updateItem(item)
+            runOnUiThread {
+                shoppingListAdapter.editItem(item, position)
+            }
+        }
+        dbThread.start()
     }
 }

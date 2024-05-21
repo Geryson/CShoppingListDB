@@ -13,11 +13,14 @@ interface ShoppingItemDAO {
     fun getAllItems(): MutableList<ShoppingItem>
 
     @Insert
-    suspend fun insertItem(item: ShoppingItem)
+    fun insertItem(item: ShoppingItem)
 
     @Update
-    suspend fun updateItem(item: ShoppingItem)
+    fun updateItem(item: ShoppingItem)
 
     @Delete
-    suspend fun deleteItem(item: ShoppingItem)
+    fun deleteItem(item: ShoppingItem)
+
+    @Query("DELETE FROM shoppingitem")
+    fun deleteAllItems()
 }
