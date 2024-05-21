@@ -15,9 +15,9 @@ class ShoppingListAdapter(private val context: Context) :
     RecyclerView.Adapter<ShoppingListAdapter.ViewHolder>() {
 
     private val items = mutableListOf(
-        ShoppingItem("Milk", "This is milk", 2, 1, true),
-        ShoppingItem("Smartphone", "This is smartphone", 220, 2, false),
-        ShoppingItem("Shirt", "This is shirt", 20, 0, false)
+        ShoppingItem(0, "Milk", "This is milk", 2, 1, true),
+        ShoppingItem(1, "Smartphone", "This is smartphone", 220, 2, false),
+        ShoppingItem(2, "Shirt", "This is shirt", 20, 0, false)
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

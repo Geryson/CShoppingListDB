@@ -7,8 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.room.Room
 import com.gery.cshoppinglistdb.adapter.ShoppingListAdapter
 import com.gery.cshoppinglistdb.data.ShoppingItem
+import com.gery.cshoppinglistdb.data.ShoppingItemDatabase
 import com.gery.cshoppinglistdb.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), ShoppingItemDialog.ShoppingItemDialogHandler {

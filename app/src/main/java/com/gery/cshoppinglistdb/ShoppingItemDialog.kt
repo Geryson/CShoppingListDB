@@ -104,6 +104,7 @@ class ShoppingItemDialog(item: ShoppingItem?, position: Int) : DialogFragment() 
     }
 
     private fun generateShoppingItem() = ShoppingItem(
+        null,
         shoppingDialogBinding.etItemDialogName.text.toString(),
         shoppingDialogBinding.etItemDialogDescription.text.toString(),
         shoppingDialogBinding.etItemDialogPrice.text.toString().toInt(),
