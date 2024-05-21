@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Shopping List</string>
+
+
+    <string name="DIALOG_NAME">Name</string>
+    <string name="DIALOG_DESCRIPTION">Description</string>
+    <string name="DIALOG_PRICE">Price</string>
+    <string name="DIALOG_CATEGORY">Category</string>
+    <string name="DIALOG_STATUS">Purchased?</string>
+
+
+    <string name="LIST_PLACEHOLDER_NAME">NAME</string>
+    <string name="LIST_PLACEHOLDER_PRICE">PRICE</string>
+    <string name="LIST_PLACEHOLDER_DESCRIPTION">DESCRIPTION</string>
+
+    <string name="LIST_ITEM_BUTTON_EDIT">Edit</string>
+    <string name="LIST_ITEM_BUTTON_DELETE">Delete</string>
+
+
+    <string name="TOOLBAR_ACTION_DELETE_ALL">Delete all</string>
+</resources>
