@@ -9,16 +9,23 @@ import com.gery.cshoppinglistdb.MainActivity
 import com.gery.cshoppinglistdb.R
 import com.gery.cshoppinglistdb.ShoppingItemDialog
 import com.gery.cshoppinglistdb.data.ShoppingItem
+import com.gery.cshoppinglistdb.data.ShoppingItemDatabase
 import com.gery.cshoppinglistdb.databinding.ShoppingListItemLayoutBinding
 
 class ShoppingListAdapter(private val context: Context) :
     RecyclerView.Adapter<ShoppingListAdapter.ViewHolder>() {
 
-    private val items = mutableListOf(
-        ShoppingItem(0, "Milk", "This is milk", 2, 1, true),
-        ShoppingItem(1, "Smartphone", "This is smartphone", 220, 2, false),
-        ShoppingItem(2, "Shirt", "This is shirt", 20, 0, false)
-    )
+    private var items : MutableList<ShoppingItem> = mutableListOf()
+
+    init {
+        val dbThread = Thread {
+            items = ShoppingItemDatabase.getInstance((context as MainActivity)).shoppingItemDao().getAllItems()
+            (context as MainActivity).runOnUiThread {
+                notifyItemRangeChanged(0, items.size)
+            }
+        }
+        dbThread.start()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val shopItemBinding = ShoppingListItemLayoutBinding.inflate(
